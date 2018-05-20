@@ -37,6 +37,18 @@ namespace DoNotDisturbMe.Helpers
 				AppSettings.AddOrUpdateValue(SettingsKey, value);
 			}
 		}
+        
+		public static int LastTimer
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault("lasttimer_key", 20);
+            }
+            set
+            {
+				AppSettings.AddOrUpdateValue("lasttimer_key", value);
+            }
+        }
 
 	}
 }

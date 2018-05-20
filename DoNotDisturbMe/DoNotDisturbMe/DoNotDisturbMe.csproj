@@ -56,6 +56,12 @@
     <Reference Include="Plugin.Settings">
       <HintPath>..\packages\Xam.Plugins.Settings.3.1.1\lib\net45\Plugin.Settings.dll</HintPath>
     </Reference>
+    <Reference Include="Plugin.Settings.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.Settings.3.1.1\lib\net45\Plugin.Settings.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Settings">
+      <HintPath>..\packages\Xam.Plugins.Settings.3.1.1\lib\net45\Plugin.Settings.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -70,9 +76,13 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-512.png" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\AppIcon-512%402x.png" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\statusIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\statusIcon.imageset\statusicon%402x.png" />
+    <ImageAsset Include="Assets.xcassets\statusIcon.imageset\statusicon.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Assets.xcassets\statusIcon.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -87,6 +97,9 @@
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="AppDelegate.designer.cs">
+      <DependentUpon>AppDelegate.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
