@@ -75,27 +75,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
-                    <connections>
-                        <outlet property="StatusMenu" destination="8gl-dc-D2P" id="MlY-93-vrZ"/>
-                    </connections>
-                </customObject>
-                <menu title="Status Menu" id="8gl-dc-D2P">
-                    <items>
-                        <menuItem title="10 minutes" id="2f2-sn-mQM">
-                            <modifierMask key="keyEquivalentModifierMask"/>
-                            <connections>
-                                <action selector="TenMinutesClicked:" target="Voe-Tx-rLC" id="oz2-Tv-TEg"/>
-                            </connections>
-                        </menuItem>
-                        <menuItem title="Item 2" id="Uxl-bz-QD8">
-                            <modifierMask key="keyEquivalentModifierMask"/>
-                        </menuItem>
-                        <menuItem title="Item 3" id="6Ht-JR-pLI">
-                            <modifierMask key="keyEquivalentModifierMask"/>
-                        </menuItem>
-                    </items>
-                </menu>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
@@ -314,14 +294,69 @@
                         <outlet property="ArduinoLoader" destination="7Kv-xM-bis" id="kDj-U6-ESu"/>
                         <outlet property="ArduinoStatus" destination="lZ8-DI-Gr8" id="XdC-5x-K8e"/>
                         <outlet property="PortSelector" destination="cUL-Z0-9YS" id="Dkt-Vf-lPn"/>
+                        <outlet property="PortsMenu" destination="hW5-f6-iqZ" id="C1Z-kk-fUx"/>
                         <outlet property="StartButton" destination="3Qf-qg-H6h" id="sEF-dG-3ef"/>
                         <outlet property="StartStopButton" destination="3Qf-qg-H6h" id="TGn-6R-Oha"/>
+                        <outlet property="StatusMenu" destination="8gl-dc-D2P" id="7ye-aY-cq1"/>
                         <outlet property="TimerLabel" destination="hJL-V0-3Rn" id="6sQ-KS-eTp"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu title="Status Menu" id="8gl-dc-D2P">
+                    <items>
+                        <menuItem title="10 minutes" id="2f2-sn-mQM">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="StatusBarTenMinutesItem:" target="XfG-lQ-9wD" id="zX9-br-hAS"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="20 minutes" id="Uxl-bz-QD8">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="StatusBarTwentyMinutesItem:" target="XfG-lQ-9wD" id="0hB-fr-PYE"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="30 minutes" id="6Ht-JR-pLI">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="40 minutes" id="tgh-34-Ivr">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="50 minutes" id="jZJ-lv-vpk">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="60 minutes" id="GxT-W7-Ofg">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="QL3-iH-E45"/>
+                        <menuItem title="Start" id="s0m-g3-5ZZ">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="StartStopButtonClicked:" target="XfG-lQ-9wD" id="UYS-en-CGy"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="sOF-vq-Euu"/>
+                        <menuItem title="Ports" id="hW5-f6-iqZ">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <menu key="submenu" title="Ports" id="r2n-R2-JZa">
+                                <items>
+                                    <menuItem title="Item" id="q6i-mD-LAS">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                </items>
+                            </menu>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="kdM-H2-FnV"/>
+                        <menuItem title="Exit" id="BIZ-r7-Qz2">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="StatusBarExitClicked:" target="XfG-lQ-9wD" id="ygH-lH-9Be"/>
+                            </connections>
+                        </menuItem>
+                    </items>
+                </menu>
             </objects>
-            <point key="canvasLocation" x="253" y="772.5"/>
+            <point key="canvasLocation" x="481" y="829"/>
         </scene>
     </scenes>
 </document>

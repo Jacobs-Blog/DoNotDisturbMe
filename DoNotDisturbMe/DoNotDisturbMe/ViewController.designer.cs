@@ -22,7 +22,13 @@ namespace DoNotDisturbMe
 		AppKit.NSPopUpButton PortSelector { get; set; }
 
 		[Outlet]
+		AppKit.NSMenuItem PortsMenu { get; set; }
+
+		[Outlet]
 		AppKit.NSButton StartStopButton { get; set; }
+
+		[Outlet]
+		AppKit.NSMenu StatusMenu { get; set; }
 
 		[Outlet]
 		AppKit.NSTextField TimerLabel { get; set; }
@@ -32,6 +38,21 @@ namespace DoNotDisturbMe
 
 		[Action ("StartStopButtonClicked:")]
 		partial void StartStopButtonClicked (Foundation.NSObject sender);
+
+		[Action ("StatusBarExitClicked:")]
+		partial void StatusBarExitClicked (Foundation.NSObject sender);
+
+		[Action ("StatusBarTenMinutesClicked:")]
+		partial void StatusBarTenMinutesClicked (Foundation.NSObject sender);
+
+		[Action ("StatusBarTenMinutesItem:")]
+		partial void StatusBarTenMinutesItem (Foundation.NSObject sender);
+
+		[Action ("StatusBarTwentyMinutesClicked:")]
+		partial void StatusBarTwentyMinutesClicked (Foundation.NSObject sender);
+
+		[Action ("StatusBarTwentyMinutesItem:")]
+		partial void StatusBarTwentyMinutesItem (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -50,14 +71,24 @@ namespace DoNotDisturbMe
 				PortSelector = null;
 			}
 
-			if (TimerLabel != null) {
-				TimerLabel.Dispose ();
-				TimerLabel = null;
+			if (PortsMenu != null) {
+				PortsMenu.Dispose ();
+				PortsMenu = null;
 			}
 
 			if (StartStopButton != null) {
 				StartStopButton.Dispose ();
 				StartStopButton = null;
+			}
+
+			if (StatusMenu != null) {
+				StatusMenu.Dispose ();
+				StatusMenu = null;
+			}
+
+			if (TimerLabel != null) {
+				TimerLabel.Dispose ();
+				TimerLabel = null;
 			}
 		}
 	}
