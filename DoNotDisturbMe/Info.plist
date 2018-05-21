@@ -5,7 +5,7 @@
 	<key>CFBundleName</key>
 	<string>DoNotDisturbMe</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.jacobsapps.donotdisturbme.DoNotDisturbMe</string>
+	<string>com.redhotminute.donotdisturbme.DoNotDisturbMe</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -24,9 +24,11 @@
 	<string>${AuthorCopyright:HtmlEncode}</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>NSMainStoryboardFile</key>
-	<string>Main</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>LSUIElement</key>
+	<true/>
 </dict>
 </plist>

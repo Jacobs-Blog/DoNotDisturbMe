@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MainMenu">
+            <connections>
+                <outlet property="MenuItemExit" destination="fNH-aT-Q0h" id="zjE-dd-Uo4"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="hrS-Rc-ftF" customClass="AppController">
+            <connections>
+                <outlet property="Exit" destination="fNH-aT-Q0h" id="Gdk-Ce-LYi"/>
+                <outlet property="FiftyMinutes" destination="RyE-qV-jbc" id="LoM-t3-eYl"/>
+                <outlet property="FortyMinutes" destination="QSX-D2-xaP" id="ZmD-rd-rmP"/>
+                <outlet property="SixtyMinutes" destination="DnM-5o-Wid" id="2em-ef-m7n"/>
+                <outlet property="StatusMenu" destination="hxy-i7-JDt" id="bNn-OB-qkG"/>
+                <outlet property="TenMinutes" destination="Uba-cd-lPf" id="XlM-xu-odt"/>
+                <outlet property="ThirtyMinutes" destination="AnB-aX-x2X" id="U9M-xl-9nI"/>
+                <outlet property="TwentyMinutes" destination="V4f-UP-dJm" id="tPx-La-qeW"/>
+            </connections>
+        </customObject>
+        <menu id="hxy-i7-JDt">
+            <items>
+                <menuItem title="10 minutes" tag="10" id="Uba-cd-lPf">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="MinutesSelected:" target="hrS-Rc-ftF" id="88a-6N-x2T"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="20 minutes" tag="20" id="V4f-UP-dJm">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="MinutesSelected:" target="hrS-Rc-ftF" id="DbJ-O0-aMb"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="30 minutes" tag="30" id="AnB-aX-x2X">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="MinutesSelected:" target="hrS-Rc-ftF" id="vdd-OX-tTa"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="40 minutes" tag="40" id="QSX-D2-xaP">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="MinutesSelected:" target="hrS-Rc-ftF" id="FXV-E7-cVF"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="50 minutes" tag="50" id="RyE-qV-jbc">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="MinutesSelected:" target="hrS-Rc-ftF" id="4hI-PQ-8tp"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="60 minutes" id="DnM-5o-Wid">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="MinutesSelected:" target="hrS-Rc-ftF" id="q5c-cb-0Bk"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="UDs-ux-LVS"/>
+                <menuItem title="Start" id="bXj-YL-cHT">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="lhU-Al-mhz"/>
+                <menuItem title="Arduino port" id="1ff-nW-54j">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Arduino port" id="pXY-YT-glO">
+                        <items>
+                            <menuItem title="About Application" id="cjO-Iw-kRE">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="orderFrontStandardAboutPanel:" target="-1" id="dTk-Vl-aaS"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="n7I-98-4hg"/>
+                            <menuItem title="Preferences…" keyEquivalent="," id="Z3U-Db-iKA"/>
+                            <menuItem isSeparatorItem="YES" id="X3I-xa-uHJ"/>
+                            <menuItem title="Services" id="Cjl-pS-pwV">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Services" systemMenu="services" id="Q88-xk-fkN"/>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="9MK-1q-19p"/>
+                            <menuItem title="Hide Application" keyEquivalent="h" id="x7s-WF-EMS">
+                                <connections>
+                                    <action selector="hide:" target="-1" id="Q3O-6e-GoQ"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Hide Others" keyEquivalent="h" id="076-hv-KZV">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="hideOtherApplications:" target="-1" id="zni-wj-juM"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show All" id="jdG-U9-31a">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="unhideAllApplications:" target="-1" id="0fd-Iz-YsO"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Msz-Vk-oLe"/>
+                            <menuItem title="Quit Application" keyEquivalent="q" id="Q91-0G-Lbw">
+                                <connections>
+                                    <action selector="terminate:" target="-1" id="oE9-Wx-pUu"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="SuG-KR-exO"/>
+                <menuItem title="Info" id="vlR-5c-qql">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="ExitClicked:" target="-2" id="k7q-j6-wuZ"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Exit" id="fNH-aT-Q0h">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="ExitClicked:" target="hrS-Rc-ftF" id="6AK-SB-3S2"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="138.5" y="165.5"/>
+        </menu>
+    </objects>
+</document>

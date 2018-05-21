@@ -9,19 +9,20 @@ using System.CodeDom.Compiler;
 
 namespace DoNotDisturbMe
 {
-	partial class AppDelegate
+	[Register ("MainMenu")]
+	partial class MainMenu
 	{
 		[Outlet]
-		AppKit.NSMenu StatusMenu { get; set; }
-
-		[Action ("TenMinutesClicked:")]
-		partial void TenMinutesClicked (Foundation.NSObject sender);
+		AppKit.NSMenuItem MenuItemExit { get; set; }
+        
+		[Action ("ExitClicked:")]
+		partial void ExitClicked (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (StatusMenu != null) {
-				StatusMenu.Dispose ();
-				StatusMenu = null;
+			if (MenuItemExit != null) {
+				MenuItemExit.Dispose ();
+				MenuItemExit = null;
 			}
 		}
 	}
