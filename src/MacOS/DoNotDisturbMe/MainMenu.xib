@@ -74,47 +74,6 @@
                 <menuItem isSeparatorItem="YES" id="lhU-Al-mhz"/>
                 <menuItem title="Arduino port" id="1ff-nW-54j">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Arduino port" autoenablesItems="NO" id="pXY-YT-glO">
-                        <items>
-                            <menuItem title="About Application" id="cjO-Iw-kRE">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="orderFrontStandardAboutPanel:" target="-1" id="dTk-Vl-aaS"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="n7I-98-4hg"/>
-                            <menuItem title="Preferences…" keyEquivalent="," id="Z3U-Db-iKA"/>
-                            <menuItem isSeparatorItem="YES" id="X3I-xa-uHJ"/>
-                            <menuItem title="Services" id="Cjl-pS-pwV">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Services" systemMenu="services" id="Q88-xk-fkN"/>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="9MK-1q-19p"/>
-                            <menuItem title="Hide Application" keyEquivalent="h" id="x7s-WF-EMS">
-                                <connections>
-                                    <action selector="hide:" target="-1" id="Q3O-6e-GoQ"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Hide Others" keyEquivalent="h" id="076-hv-KZV">
-                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                <connections>
-                                    <action selector="hideOtherApplications:" target="-1" id="zni-wj-juM"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Show All" id="jdG-U9-31a">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="unhideAllApplications:" target="-1" id="0fd-Iz-YsO"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="Msz-Vk-oLe"/>
-                            <menuItem title="Quit Application" keyEquivalent="q" id="Q91-0G-Lbw">
-                                <connections>
-                                    <action selector="terminate:" target="-1" id="oE9-Wx-pUu"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="SuG-KR-exO"/>
                 <menuItem title="Test" id="vlR-5c-qql">
