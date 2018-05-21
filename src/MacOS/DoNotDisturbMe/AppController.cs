@@ -4,6 +4,7 @@ using Foundation;
 using System.Timers;
 using System.Linq;
 using System.IO.Ports;
+using DoNotDisturbMe.Models;
 
 namespace DoNotDisturbMe
 {
@@ -13,7 +14,7 @@ namespace DoNotDisturbMe
 		private NSStatusItem _statusItem;
 		private NSImage _activeIcon;
 		private NSImage _inactiveIcon;
-		private NSImage _warningIcon;
+		private NSImage _noArduinoIcon;
 		private NSMenuItem _stopItem;
 
 		private SerialPort _serialPort;
@@ -23,6 +24,7 @@ namespace DoNotDisturbMe
 		private int _timerDuration;
 
 		private bool _manualStopRequested;
+		private bool _testRequested;
 
 		public AppController()
 		{
@@ -41,10 +43,10 @@ namespace DoNotDisturbMe
 		{
 			_inactiveIcon = NSImage.ImageNamed("statusIconInactive");
 			_activeIcon = NSImage.ImageNamed("statusIconActive");
-			_warningIcon = NSImage.ImageNamed("statusIconWarning");
+			_noArduinoIcon = NSImage.ImageNamed("statusIconNoArduino");
 
 			_statusItem = NSStatusBar.SystemStatusBar.CreateStatusItem(NSStatusItemLength.Variable);
-			_statusItem.Image = _inactiveIcon;
+			SetSystemIcon();
 			_statusItem.Menu = StatusMenu;
 			_statusItem.HighlightMode = true;
 
@@ -53,28 +55,36 @@ namespace DoNotDisturbMe
 			InvokeOnMainThread(() => _stopItem.Enabled = false);
 		}
 
+        private void SetSystemIcon()
+		{
+			if(_serialPort == null || !_serialPort.IsOpen)
+			{
+				_statusItem.Image = _noArduinoIcon;
+				_statusItem.ToolTip = "No arduino connected";
+			}   
+			else 
+			{
+				_statusItem.Image = _inactiveIcon;
+				_statusItem.ToolTip = "Arduino connected";
+			}         
+		}
+
 		private void SetupArduinoMenu()
 		{
 			var menuItems = new NSMenu();
 
 			var ports = SerialPort.GetPortNames().Where(x => x.Contains("usbmodem"));
-			if (ports != null && ports.Any())
-			{
-				foreach (var port in ports)
-				{
-					menuItems.AddItem(new NSMenuItem(port, (object sender, EventArgs e) =>
-					{
-						var selectedPort = sender as NSMenuItem;
-						ConnectToArduino(selectedPort.Title);
-					}));
-				}
 
-				ArduinoPortsMenu.Submenu = menuItems;
-			}
-			else
+			foreach (var port in ports)
 			{
-				_statusItem.Image = _warningIcon;
+				menuItems.AddItem(new NSMenuItem(port, (object sender, EventArgs e) =>
+				{
+					var selectedPort = sender as NSMenuItem;
+					ConnectToArduino(selectedPort.Title);
+				}));
 			}
+
+			ArduinoPortsMenu.Submenu = menuItems;
 		}
 
 		private void Start()
@@ -103,21 +113,21 @@ namespace DoNotDisturbMe
 			// Format the remaining time nicely for the label
 			TimeSpan time = TimeSpan.FromSeconds(_timeLeft);
 			string timeString = time.ToString(@"mm\:ss");
-			InvokeOnMainThread(() =>
-			{
-				_statusItem.Image = _activeIcon;
-				_statusItem.Title = timeString;
-			});
+			InvokeOnMainThread(() => _statusItem.Title = timeString);
 		}
 
 		private void StartNewTimer()
 		{
-#if DEBUG
-			_timeLeft = _timerDuration;
-#else
-			_timeLeft = _timerDuration * 60;
-#endif
+			if(_testRequested)
+			    _timeLeft = _timerDuration;
+			else
+			    _timeLeft = _timerDuration * 60;
 
+			SetSystemIcon();
+
+			SetTimerLabel();
+
+			WriteDataToArduino(ArduinoCommands.Up);
 			_timer.Start();
 
 			_stopItem.Enabled = true;
@@ -126,13 +136,15 @@ namespace DoNotDisturbMe
 		private void TimerEnd()
 		{
 			_timer.Stop();
+			WriteDataToArduino(ArduinoCommands.Down);
 
 			InvokeOnMainThread(() =>
 			{
 				_stopItem.Enabled = false;
 
-				_statusItem.Image = _inactiveIcon;
 				_statusItem.Title = string.Empty;
+
+				SetSystemIcon();
 
 				UncheckMenuItems();
 			});
@@ -141,7 +153,7 @@ namespace DoNotDisturbMe
 			{
 				//Trigger a local notification after the time has elapsed
 				var notification = new NSUserNotification();
-				notification.Title = "OH NO! They can disturb you again!";
+				notification.Title = "OH NO! RUN! HIDE!";
 				notification.InformativeText = $"{_timerDuration} minutes are up!";
 				notification.SoundName = NSUserNotification.NSUserNotificationDefaultSoundName;
 				NSUserNotificationCenter.DefaultUserNotificationCenter.DeliverNotification(notification);
@@ -154,7 +166,7 @@ namespace DoNotDisturbMe
 
 		#region Menu Click Handlers
 
-		partial void MinutesSelected(Foundation.NSObject sender)
+		partial void MinutesSelected(NSObject sender)
 		{
 			UncheckMenuItems();
 
@@ -169,16 +181,25 @@ namespace DoNotDisturbMe
 
 		private void UncheckMenuItems()
 		{
-			foreach (var menuItem in _statusItem.Menu.ItemArray())
+			foreach (var menuItem in _statusItem.Menu.ItemArray().Where(x => x.Title.ToLower().Contains("minutes") && x.State == NSCellStateValue.On))
 			{
-				if (menuItem.Title.ToLower().Contains("minutes"))
-					menuItem.State = NSCellStateValue.Off;
+				menuItem.State = NSCellStateValue.Off;
 			}
 		}
 
 		partial void StopClicked(NSObject sender)
 		{
 			_manualStopRequested = true;
+		}
+
+		partial void TestClicked(NSObject sender)
+		{
+			_testRequested = !_testRequested;
+
+			if (_testRequested)
+				_statusItem.Menu.ItemArray().FirstOrDefault(x => x.Title.ToLower().Contains("test")).State = NSCellStateValue.On;
+			else
+				_statusItem.Menu.ItemArray().FirstOrDefault(x => x.Title.ToLower().Contains("test")).State = NSCellStateValue.Off;         
 		}
 
 		partial void ExitClicked(NSObject sender)
@@ -200,24 +221,36 @@ namespace DoNotDisturbMe
         {         
             try
             {
+				UncheckArduinoMenuItems();
+
                 TryCloseSerial();
 
                 _serialPort = new SerialPort(port, 9600);
 				if (_serialPort != null)
                 {
 					_serialPort.Open();
-
-					//if (_serialPort.IsOpen)
-                        //ArduinoStatus.StringValue = "Connected";
+					if(_serialPort.IsOpen)
+					{
+						ArduinoPortsMenu.Submenu.ItemArray().FirstOrDefault(x => x.Title.Equals(port)).State = NSCellStateValue.On;
+						//var item = ArduinoPortsMenu.Submenu.ItemArray().FirstOrDefault(x => x.Title.Equals(port));
+						//item.State = NSCellStateValue.On;                  
+					}
                 }
             }
             catch (Exception ex)
             {
-                //ArduinoStatus.StringValue = "Error!";
             }
             finally
             {
-                //ArduinoLoader.Hidden = true;
+				SetSystemIcon();
+            }
+        }
+
+		private void UncheckArduinoMenuItems()
+        {
+			foreach (var menuItem in ArduinoPortsMenu.Submenu.ItemArray().Where(x => x.State == NSCellStateValue.On))
+            {
+                menuItem.State = NSCellStateValue.Off;
             }
         }
 
@@ -230,6 +263,27 @@ namespace DoNotDisturbMe
 				_serialPort = null;
             }
         }
+
+		private void WriteDataToArduino(ArduinoCommands command)
+		{
+			if(_serialPort != null && _serialPort.IsOpen)
+			{
+				switch(command)
+				{
+					case ArduinoCommands.Up:
+						_serialPort.WriteLine("100");
+						break;
+
+					case ArduinoCommands.Down:
+						_serialPort.WriteLine("0");
+                        break;
+
+					case ArduinoCommands.Angle:
+						_serialPort.WriteLine("angle");
+						break;
+				}
+			}
+		}
 
 		#endregion
 	}

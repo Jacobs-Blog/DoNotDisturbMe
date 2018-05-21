@@ -21,6 +21,7 @@
                 <outlet property="StatusMenu" destination="hxy-i7-JDt" id="bNn-OB-qkG"/>
                 <outlet property="Stop" destination="bXj-YL-cHT" id="6aa-Nu-o7Z"/>
                 <outlet property="TenMinutes" destination="Uba-cd-lPf" id="XlM-xu-odt"/>
+                <outlet property="Test" destination="vlR-5c-qql" id="xNT-GD-Pfp"/>
                 <outlet property="ThirtyMinutes" destination="AnB-aX-x2X" id="U9M-xl-9nI"/>
                 <outlet property="TwentyMinutes" destination="V4f-UP-dJm" id="tPx-La-qeW"/>
             </connections>
@@ -73,7 +74,7 @@
                 <menuItem isSeparatorItem="YES" id="lhU-Al-mhz"/>
                 <menuItem title="Arduino port" id="1ff-nW-54j">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Arduino port" id="pXY-YT-glO">
+                    <menu key="submenu" title="Arduino port" autoenablesItems="NO" id="pXY-YT-glO">
                         <items>
                             <menuItem title="About Application" id="cjO-Iw-kRE">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -116,10 +117,10 @@
                     </menu>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="SuG-KR-exO"/>
-                <menuItem title="Info" id="vlR-5c-qql">
+                <menuItem title="Test" id="vlR-5c-qql">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="ExitClicked:" target="-2" id="k7q-j6-wuZ"/>
+                        <action selector="TestClicked:" target="hrS-Rc-ftF" id="Loq-5Q-YFN"/>
                     </connections>
                 </menuItem>
                 <menuItem title="Exit" id="fNH-aT-Q0h">

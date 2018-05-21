@@ -36,6 +36,9 @@ namespace DoNotDisturbMe
 		AppKit.NSMenuItem TenMinutes { get; set; }
 
 		[Outlet]
+		AppKit.NSMenuItem Test { get; set; }
+
+		[Outlet]
 		AppKit.NSMenuItem ThirtyMinutes { get; set; }
 
 		[Outlet]
@@ -49,9 +52,17 @@ namespace DoNotDisturbMe
 
 		[Action ("StopClicked:")]
 		partial void StopClicked (Foundation.NSObject sender);
+
+		[Action ("TestClicked:")]
+		partial void TestClicked (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (ArduinoPortsMenu != null) {
+				ArduinoPortsMenu.Dispose ();
+				ArduinoPortsMenu = null;
+			}
+
 			if (Exit != null) {
 				Exit.Dispose ();
 				Exit = null;
@@ -97,9 +108,9 @@ namespace DoNotDisturbMe
 				TwentyMinutes = null;
 			}
 
-			if (ArduinoPortsMenu != null) {
-				ArduinoPortsMenu.Dispose ();
-				ArduinoPortsMenu = null;
+			if (Test != null) {
+				Test.Dispose ();
+				Test = null;
 			}
 		}
 	}
