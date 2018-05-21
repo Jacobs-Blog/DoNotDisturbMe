@@ -18,12 +18,13 @@
                 <outlet property="FortyMinutes" destination="QSX-D2-xaP" id="ZmD-rd-rmP"/>
                 <outlet property="SixtyMinutes" destination="DnM-5o-Wid" id="2em-ef-m7n"/>
                 <outlet property="StatusMenu" destination="hxy-i7-JDt" id="bNn-OB-qkG"/>
+                <outlet property="Stop" destination="bXj-YL-cHT" id="6aa-Nu-o7Z"/>
                 <outlet property="TenMinutes" destination="Uba-cd-lPf" id="XlM-xu-odt"/>
                 <outlet property="ThirtyMinutes" destination="AnB-aX-x2X" id="U9M-xl-9nI"/>
                 <outlet property="TwentyMinutes" destination="V4f-UP-dJm" id="tPx-La-qeW"/>
             </connections>
         </customObject>
-        <menu id="hxy-i7-JDt">
+        <menu autoenablesItems="NO" id="hxy-i7-JDt">
             <items>
                 <menuItem title="10 minutes" tag="10" id="Uba-cd-lPf">
                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -55,15 +56,18 @@
                         <action selector="MinutesSelected:" target="hrS-Rc-ftF" id="4hI-PQ-8tp"/>
                     </connections>
                 </menuItem>
-                <menuItem title="60 minutes" id="DnM-5o-Wid">
+                <menuItem title="60 minutes" tag="60" id="DnM-5o-Wid">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="MinutesSelected:" target="hrS-Rc-ftF" id="q5c-cb-0Bk"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="UDs-ux-LVS"/>
-                <menuItem title="Start" id="bXj-YL-cHT">
+                <menuItem title="Stop" enabled="NO" id="bXj-YL-cHT">
                     <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="StopClicked:" target="hrS-Rc-ftF" id="GOU-bQ-c4X"/>
+                    </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="lhU-Al-mhz"/>
                 <menuItem title="Arduino port" id="1ff-nW-54j">

@@ -27,6 +27,9 @@ namespace DoNotDisturbMe
 		AppKit.NSMenu StatusMenu { get; set; }
 
 		[Outlet]
+		AppKit.NSMenuItem Stop { get; set; }
+
+		[Outlet]
 		AppKit.NSMenuItem TenMinutes { get; set; }
 
 		[Outlet]
@@ -40,9 +43,37 @@ namespace DoNotDisturbMe
 
 		[Action ("MinutesSelected:")]
 		partial void MinutesSelected (Foundation.NSObject sender);
+
+		[Action ("StopClicked:")]
+		partial void StopClicked (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (Exit != null) {
+				Exit.Dispose ();
+				Exit = null;
+			}
+
+			if (Stop != null) {
+				Stop.Dispose ();
+				Stop = null;
+			}
+
+			if (FiftyMinutes != null) {
+				FiftyMinutes.Dispose ();
+				FiftyMinutes = null;
+			}
+
+			if (FortyMinutes != null) {
+				FortyMinutes.Dispose ();
+				FortyMinutes = null;
+			}
+
+			if (SixtyMinutes != null) {
+				SixtyMinutes.Dispose ();
+				SixtyMinutes = null;
+			}
+
 			if (StatusMenu != null) {
 				StatusMenu.Dispose ();
 				StatusMenu = null;
@@ -53,34 +84,14 @@ namespace DoNotDisturbMe
 				TenMinutes = null;
 			}
 
-			if (TwentyMinutes != null) {
-				TwentyMinutes.Dispose ();
-				TwentyMinutes = null;
-			}
-
 			if (ThirtyMinutes != null) {
 				ThirtyMinutes.Dispose ();
 				ThirtyMinutes = null;
 			}
 
-			if (FortyMinutes != null) {
-				FortyMinutes.Dispose ();
-				FortyMinutes = null;
-			}
-
-			if (FiftyMinutes != null) {
-				FiftyMinutes.Dispose ();
-				FiftyMinutes = null;
-			}
-
-			if (SixtyMinutes != null) {
-				SixtyMinutes.Dispose ();
-				SixtyMinutes = null;
-			}
-
-			if (Exit != null) {
-				Exit.Dispose ();
-				Exit = null;
+			if (TwentyMinutes != null) {
+				TwentyMinutes.Dispose ();
+				TwentyMinutes = null;
 			}
 		}
 	}
