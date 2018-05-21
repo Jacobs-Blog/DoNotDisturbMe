@@ -3,6 +3,7 @@ using AppKit;
 using Foundation;
 using System.Timers;
 using System.Linq;
+using System.IO.Ports;
 
 namespace DoNotDisturbMe
 {
@@ -12,22 +13,26 @@ namespace DoNotDisturbMe
 		private NSStatusItem _statusItem;
 		private NSImage _activeIcon;
 		private NSImage _inactiveIcon;
+		private NSImage _warningIcon;
 		private NSMenuItem _stopItem;
 
+		private SerialPort _serialPort;
+
 		private Timer _timer;
-        private int _timeLeft;
+		private int _timeLeft;
 		private int _timerDuration;
 
 		private bool _manualStopRequested;
 
 		public AppController()
 		{
-
 		}
 
 		public override void AwakeFromNib()
 		{
 			SetupMenu();
+
+			SetupArduinoMenu();
 
 			Start();
 		}
@@ -36,6 +41,7 @@ namespace DoNotDisturbMe
 		{
 			_inactiveIcon = NSImage.ImageNamed("statusIconInactive");
 			_activeIcon = NSImage.ImageNamed("statusIconActive");
+			_warningIcon = NSImage.ImageNamed("statusIconWarning");
 
 			_statusItem = NSStatusBar.SystemStatusBar.CreateStatusItem(NSStatusItemLength.Variable);
 			_statusItem.Image = _inactiveIcon;
@@ -47,10 +53,34 @@ namespace DoNotDisturbMe
 			InvokeOnMainThread(() => _stopItem.Enabled = false);
 		}
 
-        private void Start()
+		private void SetupArduinoMenu()
+		{
+			var menuItems = new NSMenu();
+
+			var ports = SerialPort.GetPortNames().Where(x => x.Contains("usbmodem"));
+			if (ports != null && ports.Any())
+			{
+				foreach (var port in ports)
+				{
+					menuItems.AddItem(new NSMenuItem(port, (object sender, EventArgs e) =>
+					{
+						var selectedPort = sender as NSMenuItem;
+						ConnectToArduino(selectedPort.Title);
+					}));
+				}
+
+				ArduinoPortsMenu.Submenu = menuItems;
+			}
+			else
+			{
+				_statusItem.Image = _warningIcon;
+			}
+		}
+
+		private void Start()
 		{
 			// Fire the timer once a second
-            _timer = new Timer(1000);
+			_timer = new Timer(1000);
 			_timer.Elapsed += _timer_Elapsed;
 		}
 
@@ -66,21 +96,21 @@ namespace DoNotDisturbMe
 			{
 				TimerEnd();
 			}
-        }
+		}
 
 		private void SetTimerLabel()
-        {
-            // Format the remaining time nicely for the label
-            TimeSpan time = TimeSpan.FromSeconds(_timeLeft);
-            string timeString = time.ToString(@"mm\:ss");
-            InvokeOnMainThread(() =>
-            {
-                _statusItem.Image = _activeIcon;
-                _statusItem.Title = timeString;
-            });
-        }
+		{
+			// Format the remaining time nicely for the label
+			TimeSpan time = TimeSpan.FromSeconds(_timeLeft);
+			string timeString = time.ToString(@"mm\:ss");
+			InvokeOnMainThread(() =>
+			{
+				_statusItem.Image = _activeIcon;
+				_statusItem.Title = timeString;
+			});
+		}
 
-        private void StartNewTimer()
+		private void StartNewTimer()
 		{
 #if DEBUG
 			_timeLeft = _timerDuration;
@@ -96,25 +126,25 @@ namespace DoNotDisturbMe
 		private void TimerEnd()
 		{
 			_timer.Stop();
-            
+
 			InvokeOnMainThread(() =>
 			{
 				_stopItem.Enabled = false;
 
 				_statusItem.Image = _inactiveIcon;
-                _statusItem.Title = string.Empty;
+				_statusItem.Title = string.Empty;
 
 				UncheckMenuItems();
-			});         
+			});
 
-			if(!_manualStopRequested)
+			if (!_manualStopRequested)
 			{
 				//Trigger a local notification after the time has elapsed
-                var notification = new NSUserNotification();
-                notification.Title = "OH NO! They can disturb you again!";
-                notification.InformativeText = $"{_timerDuration} minutes are up!";
-                notification.SoundName = NSUserNotification.NSUserNotificationDefaultSoundName;
-                NSUserNotificationCenter.DefaultUserNotificationCenter.DeliverNotification(notification);  
+				var notification = new NSUserNotification();
+				notification.Title = "OH NO! They can disturb you again!";
+				notification.InformativeText = $"{_timerDuration} minutes are up!";
+				notification.SoundName = NSUserNotification.NSUserNotificationDefaultSoundName;
+				NSUserNotificationCenter.DefaultUserNotificationCenter.DeliverNotification(notification);
 			}
 
 			_manualStopRequested = false;
@@ -127,7 +157,7 @@ namespace DoNotDisturbMe
 		partial void MinutesSelected(Foundation.NSObject sender)
 		{
 			UncheckMenuItems();
-            
+
 			var item = sender as NSMenuItem;
 			_timerDuration = (int)item.Tag;
 
@@ -137,15 +167,15 @@ namespace DoNotDisturbMe
 			StartNewTimer();
 		}
 
-        private void UncheckMenuItems()
+		private void UncheckMenuItems()
 		{
 			foreach (var menuItem in _statusItem.Menu.ItemArray())
-            {
-                if (menuItem.Title.ToLower().Contains("minutes"))
-                    menuItem.State = NSCellStateValue.Off;
-            }
+			{
+				if (menuItem.Title.ToLower().Contains("minutes"))
+					menuItem.State = NSCellStateValue.Off;
+			}
 		}
-        
+
 		partial void StopClicked(NSObject sender)
 		{
 			_manualStopRequested = true;
@@ -154,15 +184,53 @@ namespace DoNotDisturbMe
 		partial void ExitClicked(NSObject sender)
 		{
 			if (_timer.Enabled)
-			    _timer.Stop();
+				_timer.Stop();
 
-			//if (_serial.IsOpen)
-			//TryCloseSerial();
+			if (_serialPort.IsOpen)
+			    TryCloseSerial();
 
 			NSApplication.SharedApplication.Terminate(this);
 		}
 
-#endregion
+		#endregion
 
+		#region Arduino Methods
+
+		private void ConnectToArduino(string port)
+        {         
+            try
+            {
+                TryCloseSerial();
+
+                _serialPort = new SerialPort(port, 9600);
+				if (_serialPort != null)
+                {
+					_serialPort.Open();
+
+					//if (_serialPort.IsOpen)
+                        //ArduinoStatus.StringValue = "Connected";
+                }
+            }
+            catch (Exception ex)
+            {
+                //ArduinoStatus.StringValue = "Error!";
+            }
+            finally
+            {
+                //ArduinoLoader.Hidden = true;
+            }
+        }
+
+		private void TryCloseSerial()
+        {
+			if (_serialPort != null && _serialPort.IsOpen)
+            {
+				_serialPort.Close();
+				_serialPort.Dispose();
+				_serialPort = null;
+            }
+        }
+
+		#endregion
 	}
 }

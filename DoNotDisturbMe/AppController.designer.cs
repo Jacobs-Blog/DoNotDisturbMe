@@ -12,6 +12,9 @@ namespace DoNotDisturbMe
 	partial class AppController
 	{
 		[Outlet]
+		AppKit.NSMenuItem ArduinoPortsMenu { get; set; }
+
+		[Outlet]
 		AppKit.NSMenuItem Exit { get; set; }
 
 		[Outlet]
@@ -54,11 +57,6 @@ namespace DoNotDisturbMe
 				Exit = null;
 			}
 
-			if (Stop != null) {
-				Stop.Dispose ();
-				Stop = null;
-			}
-
 			if (FiftyMinutes != null) {
 				FiftyMinutes.Dispose ();
 				FiftyMinutes = null;
@@ -79,6 +77,11 @@ namespace DoNotDisturbMe
 				StatusMenu = null;
 			}
 
+			if (Stop != null) {
+				Stop.Dispose ();
+				Stop = null;
+			}
+
 			if (TenMinutes != null) {
 				TenMinutes.Dispose ();
 				TenMinutes = null;
@@ -92,6 +95,11 @@ namespace DoNotDisturbMe
 			if (TwentyMinutes != null) {
 				TwentyMinutes.Dispose ();
 				TwentyMinutes = null;
+			}
+
+			if (ArduinoPortsMenu != null) {
+				ArduinoPortsMenu.Dispose ();
+				ArduinoPortsMenu = null;
 			}
 		}
 	}

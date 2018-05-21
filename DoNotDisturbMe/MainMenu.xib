@@ -13,6 +13,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="hrS-Rc-ftF" customClass="AppController">
             <connections>
+                <outlet property="ArduinoPortsMenu" destination="1ff-nW-54j" id="dTw-h8-nyJ"/>
                 <outlet property="Exit" destination="fNH-aT-Q0h" id="Gdk-Ce-LYi"/>
                 <outlet property="FiftyMinutes" destination="RyE-qV-jbc" id="LoM-t3-eYl"/>
                 <outlet property="FortyMinutes" destination="QSX-D2-xaP" id="ZmD-rd-rmP"/>
