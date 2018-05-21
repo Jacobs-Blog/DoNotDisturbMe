@@ -4,6 +4,11 @@ A combination of a MacOS App (with Xamarin) and an Arduino. The idea is to show 
 
 ![](artwork/screenshot.png)
 
+## Current prototype
+
+![](artwork/prototype.gif)
+
+
 ## TODO
 
 - Automatically connect to an Arduino on start
