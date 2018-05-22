@@ -232,8 +232,6 @@ namespace DoNotDisturbMe
 					if(_serialPort.IsOpen)
 					{
 						ArduinoPortsMenu.Submenu.ItemArray().FirstOrDefault(x => x.Title.Equals(port)).State = NSCellStateValue.On;
-						//var item = ArduinoPortsMenu.Submenu.ItemArray().FirstOrDefault(x => x.Title.Equals(port));
-						//item.State = NSCellStateValue.On;                  
 					}
                 }
             }

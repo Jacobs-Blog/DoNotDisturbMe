@@ -8,6 +8,10 @@ A combination of a MacOS App (with Xamarin) and an Arduino. The idea is to show 
 
 ![](artwork/prototype.gif)
 
+## First test
+
+![](artwork/firsttest.gif)
+
 
 ## TODO
 
