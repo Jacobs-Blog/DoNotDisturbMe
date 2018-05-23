@@ -27,7 +27,11 @@ void loop()
       Serial.print(inputString);
       
       lastAngle = inputString.toInt();
+      
+      myServo.attach(9);
       myServo.write(lastAngle);
+      delay(250);
+      myServo.detach(); 
     }
     
     
